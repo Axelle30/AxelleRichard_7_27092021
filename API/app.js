@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require("path");
 const app = express();
 
 const forumRoutes = require('./routes/forum');
@@ -16,7 +15,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/api/auth', userRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/forum', forumRoutes);
 
 module.exports = app;

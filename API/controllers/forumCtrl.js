@@ -1,32 +1,68 @@
+const mySql = require('mysql');
+const connection = mySql.createConnection({
+    host: "localhost",
+    user: "groupomaniaClientDbUser",
+    password: "a4kvbQaTrJFCVyqGDS97",
+    database: "groupoForumDb"
+});
 
 exports.getAllMessage = (req, res, next) => {
-
+    connection.query('SELECT * FROM Thread',function(error, results, fields){
+        if(error){
+            res.status(400).json({error});
+        };
+        if(results){
+            res.status(200).json(results);
+        };
+    });
 };
 
 exports.getMessageById = (req, res, next) => {
-
+    connection.query("SELECT * FROM thread WHERE id="+req.params.id+";",function(error, results, fields){
+        if(error){
+            res.status(400).json({error});
+        };
+        if(results){
+            res.status(200).json(results);
+        };
+    });
 };
 
 exports.createMessage = (req, res, next) => {
-
+    connection.query("INSERT INTO thread "+
+                    "VALUES (NULL,'"+req.body.user_id+"','"+req.body.title+"','"+req.body.message+"',NOW());"
+    ,function(error, results, fields){
+        if(error){
+            res.status(400).json({error});
+        };
+        if(results){
+            res.status(201).json({message: "Message crée"});
+        };
+    });
 };
 
 exports.modifyMessage = (req, res, next) => {
-
+    const queryResults;
+    connection.query("UPDATE thread"+
+                    "SET message='"+req.body.message+"',datetime=NOW() WHERE id="+req.params.id+";"
+    ,function(error, results, fields){
+        if(error){
+            res.status(400).json({error});
+        };
+        if(results){
+            res.status(200).json({message: "Message modifié"});
+        };
+    });
 };
 
 exports.deleteMessage = (req, res, next) => {
-
+    connection.query("DELETE FROM thread WHERE id="+req.params.id+";",function(error, results, fields){
+        if(error){
+            res.status(400).json({error});
+        };
+        if(results){
+            res.status(200).json({message: "Message supprimé"});
+        };
+    });
 };
 
-exports.getResponse = (req, res, next) => {
-
-};
-
-exports.createResponse = (req, res, next) => {
-
-};
-
-exports.deleteResponse = (req, res, next) => {
-
-};
