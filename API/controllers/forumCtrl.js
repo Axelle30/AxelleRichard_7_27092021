@@ -1,10 +1,13 @@
 const mySql = require('mysql');
 const connection = mySql.createConnection({
     host: "localhost",
-    user: "groupomaniaClientDbUser",
-    password: "a4kvbQaTrJFCVyqGDS97",
-    database: "groupoForumDb"
+    user: /*"groupomaniaClientDbUser"*/"root",
+    password: /*"a4kvbQaTrJFCVyqGDS97"*/'PasswordForMySql?.3012',
+    database: "groupoforumDb",
+    port: 3306,
+    insercureAuth: true
 });
+
 
 exports.getAllMessage = (req, res, next) => {
     connection.query('SELECT * FROM Thread',function(error, results, fields){
@@ -42,7 +45,6 @@ exports.createMessage = (req, res, next) => {
 };
 
 exports.modifyMessage = (req, res, next) => {
-    const queryResults;
     connection.query("UPDATE thread"+
                     "SET message='"+req.body.message+"',datetime=NOW() WHERE id="+req.params.id+";"
     ,function(error, results, fields){

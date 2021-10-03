@@ -1,9 +1,11 @@
 const mySql = require('mysql');
 const connection = mySql.createConnection({
     host: "localhost",
-    user: "groupomaniaClientDbUser",
-    password: "a4kvbQaTrJFCVyqGDS97",
-    database: "groupoforumDb"
+    user: /*"groupomaniaClientDbUser"*/"root",
+    password: /*"a4kvbQaTrJFCVyqGDS97"*/'PasswordForMySql?.3012',
+    database: "groupoforumDb",
+    port: 3306,
+    insercureAuth: true
 });
 
 exports.start =  (req, res, next) => {
@@ -12,7 +14,8 @@ exports.start =  (req, res, next) => {
           console.error('error connecting: ' + err.stack);
           return;
         };
-        next();
+    });
+    next();
 };
 
 exports.end =  (req, res, next) => {
