@@ -1,12 +1,10 @@
 <template>
 <footer>
     <nav>
-        <ul>
-            <li><a href="#">Conditions Générale d'Utilisation</a></li>
-            <li><a href="#">Support Technique</a></li>
-            <li><a href="#">Contacter le service de modération</a></li>
-            <li><a href="#">Groupomania - Site</a></li>
-        </ul>
+        <router-link to="/construction">Conditions Générale d'Utilisation</router-link>
+        <router-link to="/construction">Support Technique</router-link>
+        <router-link to="/construction">Contacter le service Ressources Humaines</router-link>
+        <router-link to="/construction">Groupomania - Site officiel</router-link>
     </nav>
 </footer>    
 </template>

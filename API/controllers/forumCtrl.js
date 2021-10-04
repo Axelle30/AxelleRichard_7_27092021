@@ -13,9 +13,11 @@ exports.getAllMessage = (req, res, next) => {
     connection.query('SELECT * FROM Thread',function(error, results, fields){
         if(error){
             res.status(400).json({error});
+            next();
         };
         if(results){
             res.status(200).json(results);
+            next();
         };
     });
 };
@@ -24,9 +26,11 @@ exports.getMessageById = (req, res, next) => {
     connection.query("SELECT * FROM thread WHERE id="+req.params.id+";",function(error, results, fields){
         if(error){
             res.status(400).json({error});
+            next();
         };
         if(results){
             res.status(200).json(results);
+            next();
         };
     });
 };
@@ -37,9 +41,11 @@ exports.createMessage = (req, res, next) => {
     ,function(error, results, fields){
         if(error){
             res.status(400).json({error});
+            next();
         };
         if(results){
             res.status(201).json({message: "Message crée"});
+            next();
         };
     });
 };
@@ -50,9 +56,11 @@ exports.modifyMessage = (req, res, next) => {
     ,function(error, results, fields){
         if(error){
             res.status(400).json({error});
+            next();
         };
         if(results){
             res.status(200).json({message: "Message modifié"});
+            next();
         };
     });
 };
@@ -61,9 +69,11 @@ exports.deleteMessage = (req, res, next) => {
     connection.query("DELETE FROM thread WHERE id="+req.params.id+";",function(error, results, fields){
         if(error){
             res.status(400).json({error});
+            next();
         };
         if(results){
             res.status(200).json({message: "Message supprimé"});
+            next();
         };
     });
 };

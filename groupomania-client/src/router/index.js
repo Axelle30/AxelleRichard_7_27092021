@@ -1,22 +1,44 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import constructionAlert from '../components/constructionAlert'
+import loginForm from '../components/loginForm'
+import messageDisplay from '../components/messageDisplay'
+import newMessageForm from '../components/newMessageForm'
+import profilePage from '../components/profilePage'
+import modifyMessage from '../components/modifyMessage'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/construction',
+    name: 'construction',
+    component: constructionAlert
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/',
+    name: 'login',
+    component: loginForm
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: messageDisplay
+  },
+  {
+    path: '/new',
+    name: 'newMessage',
+    component: newMessageForm
+  },
+  {
+    path: '/user',
+    name: 'profilePage',
+    component: profilePage
+  },
+  {
+    path: '/thread/:id',
+    name: 'modifyMessage',
+    component: modifyMessage
   }
 ]
 
