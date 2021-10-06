@@ -16,6 +16,7 @@ exports.getAllMessage = (req, res, next) => {
             next();
         };
         if(results){
+            console.log(results)
             res.status(200).json(results);
             next();
         };
@@ -77,4 +78,18 @@ exports.deleteMessage = (req, res, next) => {
         };
     });
 };
+
+exports.getMessageUsername = (req, res, next) => {
+    connection.query('SELECT username FROM user WHERE id='+req.params.id, function(error, results, fields){
+        if(error){
+            console.log(error);
+            res.status(401).json({message: "Utilisateur non trouvé"});
+            next();
+        };
+        if(results){
+            res.status(202).json(results);
+            next();
+        }
+    });
+}
 

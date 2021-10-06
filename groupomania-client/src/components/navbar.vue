@@ -16,7 +16,7 @@
 
 <script>
 export default ({
-    name:"navbar",
+    name:'navbar',
     methods: {
         logOutLocalStorageClear: function() {
             localStorage.clear();   

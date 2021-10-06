@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import constructionAlert from '../components/constructionAlert'
 import loginForm from '../components/loginForm'
-import messageDisplay from '../components/messageDisplay'
+import home from '../components/home'
 import newMessageForm from '../components/newMessageForm'
 import profilePage from '../components/profilePage'
 import modifyMessage from '../components/modifyMessage'
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: messageDisplay
+    component: home
   },
   {
     path: '/new',
@@ -39,7 +39,7 @@ const routes = [
     path: '/thread/:id',
     name: 'modifyMessage',
     component: modifyMessage
-  }
+  },
 ]
 
 const router = new VueRouter({

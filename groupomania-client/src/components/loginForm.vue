@@ -3,26 +3,26 @@
     <div>
         <h1>Bienvenue sur le réseau d'entreprise Groupomania</h1>
         <div id="signup-login-selector">
-            <button id="login" class="login-page-form-select-btn" @click="showLoginForm = !showLoginForm, showSignupForm = !showSignupForm">Log In</button>
-            <button id="signup" @click="showSignupForm = !showSignupForm, showLoginForm = !showLoginForm">Sign Up</button>
+            <button id="login" class="login-page-form-select-btn btn" @click="showLoginForm = !showLoginForm, showSignupForm = !showSignupForm, menuSelector">Log In</button>
+            <button id="signup" class="login-page-form-select-btn btn" @click="showSignupForm = !showSignupForm, showLoginForm = !showLoginForm, menuSelector">Sign Up</button>
         </div>
         <div id="signup-form" v-show="showSignupForm">
             <h2>Créez un compte</h2>
-            <input class="login-page-form-input" type="text" id="signup-username">
+            <input class="login-page-form-input" type="text" id="signup-username" required>
             <label for="signup-username">Nom d'utilisateur</label>
-            <input class="login-page-form-input" type="email" id="signup-email">
+            <input class="login-page-form-input" type="email" id="signup-email" required>
             <label for="signup-email">Adresse e-mail</label>   
-            <input type="password" id="signup-password">
+            <input type="password" id="signup-password" required>
             <label class="login-page-form-input" for="signup-password">Mot de passe</label>
-            <button class="send-btn" id="signup-send" @click="signupSend">Envoyer</button> 
+            <button class="send-btn btn" id="signup-send" @click="signupSend">Envoyer</button> 
         </div>
         <div id="login-form" v-show="showLoginForm">
             <h2>Connexion</h2>
-            <input class="login-page-form-input" type="email" id="login-email">
+            <input class="login-page-form-input" type="email" id="login-email" required>
             <label for="login-email">Adresse e-mail</label>   
-            <input class="login-page-form-input" type="password" id="login-password">
+            <input class="login-page-form-input" type="password" id="login-password" required>
             <label for="login-password">Mot de passe</label> 
-            <button class="send-btn" id="login-send" @click="loginSend">Envoyer</button>
+            <button class="send-btn btn" id="login-send" @click="loginSend">Envoyer</button>
         </div>
         <div>
             <img src="../assets/icon-above-font.png" alt="groupomania logo"/>
@@ -42,6 +42,16 @@ export default ({
         }
     },
     methods: {
+        menuSelector: function() {
+            let showLoginForm;
+            let showSignupForm;
+            if(showLoginForm == true){
+                showSignupForm = false;
+            }
+            if(showSignupForm == true){
+                showLoginForm = false;
+            }
+        },
         loginSend: function() {
             const loginPassword = document.getElementById("login-password");
             const loginEmail = document.getElementById("login-email");
@@ -58,7 +68,7 @@ export default ({
             .then(function(res){
                 if(res.ok){
                     console.log("Connexion réussie");
-                    router.push({name: "home"});
+                    router.push('home');
                 }
             })
             .catch();
@@ -84,7 +94,7 @@ export default ({
                     localStorage.setItem('token',res.token );
                     localStorage.setItem('username', signupUsername.value);
                     localStorage.setItem('email', signupEmail.value );
-                    this.$router.push({name: "home"});
+                    router.push('home');
                     console.log("Connexion effectuée avec succès !");
                 }
             })
@@ -117,11 +127,17 @@ export default ({
 }
 .send-btn {
     margin-top: 5%;
-    width: 50%;
+    width: 50%!important;
     margin-left: 25%;
 }
-
-.login-page-form-input {
-    margin-top: 2%;
+.btn {
+   border-radius: 30px;
+   width: 10%;
+   background-color: black;
+   border-color: black;
+   color: #FFFF;
+}
+.btn:hover {
+    background-color: #454545;
 }
 </style>

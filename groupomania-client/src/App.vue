@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <loginForm/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,14 +26,10 @@
   }
 }
 </style>
-<script>
-import loginForm from './components/loginForm.vue'
 
+<script>
 export default {
   name: 'App',
-  components: {
-    loginForm
-  }
 }
 
 </script>

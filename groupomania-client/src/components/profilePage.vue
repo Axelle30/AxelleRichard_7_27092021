@@ -1,6 +1,6 @@
 <template>
     <div id="user-page">
-        <navbar/>
+        <headerComponent />
         <div id="user-profile">
             <div id="user-profile-image-container">
                 <img src="" alt="Photo de profil"/>
@@ -10,7 +10,8 @@
                 <h4 id="user-profile-info-email">Adresse e-mail : {{email}}</h4>
             </div>
         </div>
-        <div id="user-delete-btn-container">
+        <div id="user-btn-container">
+            <button id="user-return-btn" @click="returnToHome">Retour sur la page d'acceuil</button>
             <button id="user-delete-btn" @click="deleteProfile">Supprimer le profil</button>
         </div>
         <footer/>
@@ -18,13 +19,12 @@
 </template>
 
 <script>
-import navbar from './navbar'
-import footer from './footer'
+import router from '../router/index'
+import headerComponent from '../components/header.vue'
 export default ({
     name:"profilePage",
-    component: {
-        navbar,
-        footer,
+    components: {
+        headerComponent,
     },
     data: function() {
         return {
@@ -33,13 +33,10 @@ export default ({
         }
     },
     methods: {
-        /*displayProfile: function() {
-            const userProfile = document.getElementById("user-profile");
-            const userEmail = document.getElementById("")
-        },*/
         deleteProfile: function() {
             const authHeaders = {
-                "Authorization": localStorage.getItem('token')
+                "Authorization": localStorage.getItem('token'),
+                "Content-Type": "Application/Json"
             };
             const parameters = {
                 method: "DELETE",
@@ -55,11 +52,19 @@ export default ({
             .catch(function(){
                 console.log("Une erreur est survenue. Merci de réessayer plus tard");
             });
+        },
+        returnToHome: function() {
+            router.push("home");
         }
     }
 })
 </script>
 
 <style lang="scss">
-
+#user-profile {
+    margin-top: 20%;
+}
+#user-delete-btn {
+    margin-left: 10%;
+}
 </style>

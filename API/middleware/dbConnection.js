@@ -22,5 +22,4 @@ exports.start =  (req, res, next) => {
 exports.end =  (req, res, next) => {
     connection.end();
     console.log("Connexion MySql fermée");
-    next();
 };
