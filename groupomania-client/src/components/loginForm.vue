@@ -1,6 +1,9 @@
 <template>
 <div id="login-page">
     <div>
+        <div>
+            <img class="logo-img" src="../assets/icon-left-font-monochrome-white.svg" alt="groupomania logo"/>
+        </div>
         <h1>Bienvenue sur le réseau d'entreprise Groupomania</h1>
         <div id="signup-login-selector">
             <button id="login" class="login-page-form-select-btn btn" @click="showLoginForm = !showLoginForm, showSignupForm = !showSignupForm, menuSelector">Log In</button>
@@ -23,9 +26,6 @@
             <input class="login-page-form-input" type="password" id="login-password" required>
             <label for="login-password">Mot de passe</label> 
             <button class="send-btn btn" id="login-send" @click="loginSend">Envoyer</button>
-        </div>
-        <div>
-            <img src="../assets/icon-above-font.png" alt="groupomania logo"/>
         </div>
     </div>
 </div>
@@ -63,12 +63,19 @@ export default ({
                     password: loginPassword.value
                 })
             }
-            console.log(parameter);
             fetch("http://localhost:3000/api/user/login", parameter)
             .then(function(res){
                 if(res.ok){
+                    res.json()
+                    .then(function(res){
+                    localStorage.setItem('token', res.token);
+                    localStorage.setItem('username', res.username);
+                    localStorage.setItem('email', loginEmail.value );
+                    localStorage.setItem('userId', res.userId)
                     console.log("Connexion réussie");
                     router.push('home');
+                    })
+
                 }
             })
             .catch();
@@ -119,6 +126,9 @@ export default ({
     width: 50%;
     margin-left: 25%;
 }
+.logo-img {
+    fill: #041185;
+}
 #login-form {
     display: flex;
     flex-direction: column;
@@ -138,6 +148,7 @@ export default ({
    color: #FFFF;
 }
 .btn:hover {
-    background-color: #454545;
+    background-color: #ffd7d7;
+    color: black;
 }
 </style>

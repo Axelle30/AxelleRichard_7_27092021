@@ -4,10 +4,10 @@ const forumCtrl = require('../controllers/forumCtrl');
 const auth = require('../middleware/auth');
 const dbConnection = require('../middleware/dbConnection');
 
-router.get('/', /*dbConnection.start,*/ forumCtrl.getAllMessage, /*dbConnection.end*/);
-router.get('/:id', /*dbConnection.start,*/ forumCtrl.getMessageById, /*dbConnection.end*/);
-router.get('/:id',/*dbConnection.start,*/ forumCtrl.getMessageUsername, /*dbConnection.end*/);
-router.post('/', dbConnection.start, auth, forumCtrl.createMessage, dbConnection.end);
-router.put('/:id', dbConnection.start, forumCtrl.modifyMessage, dbConnection.end);
-router.delete('/:id', dbConnection.start, auth, forumCtrl.deleteMessage, dbConnection.end);
+router.get('/',  forumCtrl.getAllMessage);
+router.get('/:id',  forumCtrl.getMessageById, );
+router.get('/:id', forumCtrl.getMessageUsername,);
+router.post('/',  auth, forumCtrl.createMessage,);
+router.put('/:id', auth, forumCtrl.modifyMessage,);
+router.delete('/:id', auth, forumCtrl.deleteMessage,);
 module.exports = router;

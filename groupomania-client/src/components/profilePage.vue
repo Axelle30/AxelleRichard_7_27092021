@@ -3,16 +3,16 @@
         <headerComponent />
         <div id="user-profile">
             <div id="user-profile-image-container">
-                <img src="" alt="Photo de profil"/>
+                <img src="../assets/profile-logo.jpg" alt="Photo de profil"/>
             </div>
             <div id="user-profile-info">
-                <h3 id="user-profile-info-username">Nom d'utilisateur : {{ username }}</h3>
+                <h4 id="user-profile-info-username">Nom d'utilisateur : {{ username }}</h4>
                 <h4 id="user-profile-info-email">Adresse e-mail : {{email}}</h4>
             </div>
         </div>
         <div id="user-btn-container">
-            <button id="user-return-btn" @click="returnToHome">Retour sur la page d'acceuil</button>
-            <button id="user-delete-btn" @click="deleteProfile">Supprimer le profil</button>
+            <button id="user-return-btn" class="btn" @click="returnToHome">Retour sur la page d'acceuil</button>
+            <button id="user-delete-btn" class="btn" @click="deleteProfile">Supprimer le profil</button>
         </div>
         <footer/>
     </div>
@@ -41,12 +41,13 @@ export default ({
             const parameters = {
                 method: "DELETE",
                 headers: authHeaders,
+                body: JSON.stringify({token: localStorage.getItem("token")})
             };
-            fetch("http://localhost:3000/api/user/delete"+localStorage.getItem('userId'), parameters)
+            fetch("http://localhost:3000/api/user/delete/"+localStorage.getItem('userId'), parameters)
             .then(function(res){
                 if(res.ok){
                     console.log("Votre compte à bel et bien été supprimé");
-                    this.$router.push({name:'/'});
+                    router.push("/login");
                 }
             })
             .catch(function(){
@@ -62,7 +63,7 @@ export default ({
 
 <style lang="scss">
 #user-profile {
-    margin-top: 20%;
+    margin-top: 5%;
 }
 #user-delete-btn {
     margin-left: 10%;

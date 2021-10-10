@@ -21,6 +21,11 @@ const routes = [
     component: loginForm
   },
   {
+    path: '/login',
+    name: 'loginredir',
+    component: loginForm
+  },
+  {
     path: '/home',
     name: 'home',
     component: home

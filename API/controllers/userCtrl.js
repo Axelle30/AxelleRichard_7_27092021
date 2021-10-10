@@ -22,7 +22,6 @@ exports.signUp = (req, res, next) => {
                 next();
             };
             if(results){
-                res.status(200).json({message: 'Utilisateur crée'});
                 next();
             };
         });        
@@ -30,25 +29,57 @@ exports.signUp = (req, res, next) => {
     .catch(error => res.status(502).json({ error }));
 };
 
+exports.getUserId = (req, res, next) => {
+    connection.query('SELECT id FROM user WHERE username="'+req.body.username+'";', function(error, results, fields){
+        if (error) {
+            res.status(402).json({error});
+        };
+        if(results){
+            const token = jwt.sign(
+                {userId: results[0].user_id},
+                '6H5m1e5x9CJyJ0t9hmzkICvmu6NrzscVVjPMRrrdz6k3uKuh',
+                {expiresIn: "6h"}
+            );
+            resObject = {
+                userId: results[0].id,
+                token: token
+            }
+            res.status(201).json(resObject);
+        }
+    })
+}
+
 exports.login = (req, res, next) => {
     connection.query("SELECT * FROM user WHERE email='"+req.body.email+"';",function(error, results, fields){
         if(error){
             res.status(400).json({error: "Utilisateur non trouvé"});
-            console.log(error);
         };
         if(results){
+            if(results[0].password == undefined | results[0].email == undefined){
+                console.log("Utilisateur non trouvé");
+                return res.status(401).json();
+            }
             bcrypt.compare(req.body.password, results[0].password)
             .then(valid => {
                 if(!valid) {
                     return res.status(401).json({error: 'Mot de passe incorrect'});
                 }
+                if(req.body.email == "groupomaniaRH@groupomania.com"){
+                    resObject = {
+                        username: results[0].username,
+                        userId: results[0].id,
+                        token: "JeSuisLeSuperTokenDeModération"
+                    }
+                    res.status(202).json(resObject)
+                }
                 const token = jwt.sign(
-                    {userId: results.user_id},
+                    {userId: results[0].id},
                     '6H5m1e5x9CJyJ0t9hmzkICvmu6NrzscVVjPMRrrdz6k3uKuh',
                     {expiresIn: "6h"}
                 );
                 resObject = {
-                    userId: results.user_id,
+                    username: results[0].username,
+                    userId: results[0].id,
                     token: token
                 };
                 res.status(202).json(resObject);
@@ -61,7 +92,14 @@ exports.login = (req, res, next) => {
 } 
 
 exports.deleteUser = (req, res, next) => {
-    connection.query("DELETE FROM thread WHERE id="+req.params.id+";",function(error, results, fields){
+    connection.query('DELETE FROM thread WHERE user_id='+req.params.id+';',function(error, results, fields){
+        if(error){
+        };
+        if(results){
+            return 1
+        };
+    });
+    connection.query('DELETE FROM user WHERE id='+req.params.id+';',function(error, results, fields){
         if(error){
             res.status(400).json({error});
             next();

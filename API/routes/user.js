@@ -4,8 +4,8 @@ const userCtrl = require('../controllers/userCtrl');
 const dbConnection = require('../middleware/dbConnection');
 const auth = require('../middleware/auth');
 
-router.post('/signup', dbConnection.start, userCtrl.signUp, dbConnection.end);
-router.post('/login', dbConnection.start, userCtrl.login, dbConnection.end);
-router.delete('/delete/:id',dbConnection.start, auth, userCtrl.deleteUser, dbConnection.end)
+router.post('/signup', userCtrl.signUp, userCtrl.getUserId);
+router.post('/login', userCtrl.login);
+router.delete('/delete/:id',auth, userCtrl.deleteUser,)
 
 module.exports = router;
