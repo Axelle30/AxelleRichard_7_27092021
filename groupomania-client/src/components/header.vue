@@ -15,7 +15,7 @@
                     <router-link class="navbar-link" to="/construction">GroupoMedia</router-link>
                 </div>
                 <div class=navbar-link-div>
-                    <router-link class="navbar-link" to="/">Log Out</router-link>
+                    <router-link class="navbar-link" @click="cleanLocalStorage" to="/">Log Out</router-link>
                 </div>
             </div>
         </nav>
@@ -25,6 +25,11 @@
 <script>
 export default {
     name:'headerComponent',
+    methods: {
+        cleanLocalStorage: function() {
+            localStorage.clear();
+        }
+    }
 }
 </script>
 
