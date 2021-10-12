@@ -28,6 +28,7 @@ export default ({
             router.push("/home");
         },
         sendNewMessage: function() {
+            console.log("test", localStorage.getItem("token"));
             const newMessageFormTitle = document.getElementById("new-message-form-title");
             const newMessageFormText = document.getElementById("new-message-form-text");
             const parameters = {

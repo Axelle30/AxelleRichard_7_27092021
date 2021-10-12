@@ -1,5 +1,5 @@
 <template>
-    <div class="home-page" :key="temp">
+    <div class="home-page">
         <headerComponent/>
         <h1>Bienvenue sur GroupoForum</h1>
         <button @click="newMessageRedirection" class="btn new-message-btn">Ecrire un nouveau message</button>

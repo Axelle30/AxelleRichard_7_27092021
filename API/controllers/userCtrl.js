@@ -15,9 +15,10 @@ const connection = mySql.createConnection({
 exports.signUp = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
-        connection.query("INSERT INTO user VALUES (NULL,'"+req.body.username+"','"+ req.body.email +"','"+ hash +"');"    
+        connection.query("INSERT INTO user VALUES (NULL,'"+req.body.username+"','"+ req.body.email +"','"+ hash +"', 0);"    
         ,function(error, results, fields){
             if(error){
+                console.log(error);
                 res.status(400).json({error});
                 next();
             };
@@ -35,6 +36,7 @@ exports.getUserId = (req, res, next) => {
             res.status(402).json({error});
         };
         if(results){
+            console.log("Test")
             const token = jwt.sign(
                 {userId: results[0].user_id},
                 '6H5m1e5x9CJyJ0t9hmzkICvmu6NrzscVVjPMRrrdz6k3uKuh',
@@ -44,6 +46,7 @@ exports.getUserId = (req, res, next) => {
                 userId: results[0].id,
                 token: token
             }
+            console.log(resObject.token)
             res.status(201).json(resObject);
         }
     })
@@ -64,13 +67,36 @@ exports.login = (req, res, next) => {
                 if(!valid) {
                     return res.status(401).json({error: 'Mot de passe incorrect'});
                 }
-                if(req.body.email == "groupomaniaRH@groupomania.com"){
+                if(results[0].moderation == 0){
+                    console.log(results[0].id)
+                    const token = jwt.sign(
+                        {userId: results[0].id},
+                        '6H5m1e5x9CJyJ0t9hmzkICvmu6NrzscVVjPMRrrdz6k3uKuh',
+                        {expiresIn: "6h"}
+                    );
                     resObject = {
                         username: results[0].username,
                         userId: results[0].id,
-                        token: "JeSuisLeSuperTokenDeModération"
-                    }
-                    res.status(202).json(resObject)
+                        token: token
+                    };
+                    res.status(202).json(resObject);
+                    next();
+                }
+                if(results[0].moderation == 1){
+                    const moderationId = results[0].id+"/moderation"
+                    console.log(moderationId)
+                    const token = jwt.sign(
+                        {userId: moderationId},
+                        '6H5m1e5x9CJyJ0t9hmzkICvmu6NrzscVVjPMRrrdz6k3uKuh',
+                        {expiresIn: "6h"}
+                    );
+                    resObject = {
+                        username: results[0].username,
+                        userId: results[0].id,
+                        token: token
+                    };
+                    res.status(202).json(resObject);
+                    next();
                 }
                 const token = jwt.sign(
                     {userId: results[0].id},

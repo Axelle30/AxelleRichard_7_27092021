@@ -93,16 +93,18 @@ export default ({
                     username: signupUsername.value
                 })
             }
-            console.log(parameter);
             fetch("http://localhost:3000/api/user/signup", parameter)
             .then(function(res){
                 if(res.ok){
-                    localStorage.setItem('userId', res.userId);
-                    localStorage.setItem('token',res.token );
-                    localStorage.setItem('username', signupUsername.value);
-                    localStorage.setItem('email', signupEmail.value );
-                    router.push('home');
-                    console.log("Connexion effectuée avec succès !");
+                    res.json()
+                    .then(function(res){
+                        localStorage.setItem('userId', res.userId);
+                        localStorage.setItem('token', res.token);
+                        localStorage.setItem('username', signupUsername.value);
+                        localStorage.setItem('email', signupEmail.value );
+                        router.push('home');
+                        console.log("Connexion effectuée avec succès !");  
+                    })
                 }
             })
             .catch();

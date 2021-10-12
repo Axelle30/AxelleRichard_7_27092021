@@ -22,7 +22,6 @@ exports.getAllMessage = (req, res, next) => {
 };
 
 exports.getMessageById = (req, res, next) => {
-    console.log(req.params.id);
     connection.query("SELECT * FROM thread INNER JOIN user ON thread.user_id = user.id WHERE thread.id="+req.params.id+";",function(error, results, fields){
         if(error){
             res.status(400).json({error});
@@ -50,12 +49,10 @@ exports.createMessage = (req, res, next) => {
 };
 
 exports.modifyMessage = (req, res, next) => {
-    console.log(req.body)
     connection.query('UPDATE thread'+
                     ' SET message="'+req.body.message+'", datetime=NOW() WHERE id='+req.params.id+';'
     ,function(error, results, fields){
         if(error){
-            console.log(error);
             res.status(400).json({error});
         };
         if(results){

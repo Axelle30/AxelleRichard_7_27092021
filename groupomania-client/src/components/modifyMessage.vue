@@ -9,6 +9,7 @@
             <div id="modify-message-form-btn">
                 <button id="modify-message-form-modifiy" class="btn" @click="sendModifiedMessage">Modifier</button>
                 <button id="modify-message-form-delete" class="btn" @click="deleteMessage">Supprimer</button>
+                <p id="unauthorized-message"></p>
             </div>
         </div>
     </div>
@@ -30,6 +31,8 @@ export default ({
             if(res.ok){
                 return res.json();
             }
+                const unauthorizedMessage = document.getElementById("unauthorized-message")
+                unauthorizedMessage.innerHTML = "Vous n'êtes pas authorisé(e) à modifier ce message";
         })
         .then(function(res){
             const date = res[0].datetime.split("T")[0];
@@ -46,11 +49,11 @@ export default ({
                 modifyMessagePath: "/home"
             }
         })
-         if(res[0].username != localStorage.getItem("username") && localStorage.getItem("username") !== "groupomaniaRH") {
+        /* if(res[0].username != localStorage.getItem("username") && localStorage.getItem("username") !== "groupomaniaRH") {
              const modifyMessagePage = document.getElementById("modify-message-page");
              const modifyMessageContainer = document.getElementById("modify-message-container");
              modifyMessagePage.removeChild(modifyMessageContainer);
-         }
+         }*/
         const modifyMessageDisplay = document.getElementById("modify-message-display");
         const modifyMessageDisplayFirstChild = modifyMessageDisplay.firstChild;
         const mountNode = document.createElement("div");
@@ -62,6 +65,7 @@ export default ({
     },
     methods: {
         sendModifiedMessage: function() {
+            console.log(localStorage.getItem("token"))
             const modifyMessageFormText = document.getElementById("modify-message-form-text");
             const parameters = {
                 method: "PUT",
@@ -72,7 +76,8 @@ export default ({
                 body: JSON.stringify({
                     id: parseInt(localStorage.getItem("messageId")),
                     message: modifyMessageFormText.value,
-                    token: localStorage.getItem("token")
+                    token: localStorage.getItem("token"),
+                    user_id: parseInt(localStorage.getItem("userId")),
                 })
             };
 
@@ -92,7 +97,10 @@ export default ({
                     "Content-Type": "Application/Json",
                     "Authorization": localStorage.getItem("token")
                     },
-                body: JSON.stringify({token: localStorage.getItem("token")})
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    user_id: parseInt(localStorage.getItem("userId")),
+                    })
             }
             fetch("http://localhost:3000/api/forum/"+localStorage.getItem("messageId"), parameters)
             .then(function(res) {
@@ -102,7 +110,11 @@ export default ({
                     router.push("/home");
                 }
             })
-            .catch();
+            .catch(function(err){
+                console.log(err);
+                const unauthorizedMessage = document.getElementById("unauthorized-message");
+                unauthorizedMessage.innerHTML = "Vous n'êtes pas authorisé(e) à supprimer ce message";
+            });
         }
     }
 })
